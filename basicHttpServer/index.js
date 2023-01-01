@@ -1,6 +1,6 @@
-const http=require('http')     //http ki method use  kr ne k liye
+const http=require('http')                                        //http ki method use  kr ne k liye
 const port=8000;
-const fs=require('fs');        // html file use kr ne k liye
+const fs=require('fs');                                          // html file use kr ne k liye
 
 //step 2:  pass the handeler to the server
 function requestHandler(req,res){
@@ -10,32 +10,43 @@ function requestHandler(req,res){
     res.writeHead(200,{'content-type':'text/html'});
 
 
-    if(req.url=='/contact'){
-        fs.readFile('./contact.html', function(err,data){        // data k under index.html ka all data aayega
-            if(err){
-                console.log(`Error !  ${err}`);
-              return  res.end(`<h1> Error !  ${err} </h1>`);
-            }
+    // if(req.url=='/contact'){                                     //  contact url this  will work
+    //     fs.readFile('./contact.html', function(err,data){        // data k under index.html ka all data aayega
+    //         if(err){
+    //             console.log(`Error !  ${err}`);
+    //           return  res.end(`<h1> Error !  ${err} </h1>`);
+    //         }
     
-            return res.end(data);    // data ko how kr ne k liye
-        });
+    //         return res.end(data);                               // data ko how kr ne k liye
+    //     });
+    // }
+    // else{                                                        //  any url this  will work
+
+    // fs.readFile('./index.html', function(err,data){              // data k under index.html ka all data aayega
+    //     if(err){
+    //         console.log(`Error !  ${err}`);
+    //       return  res.end(`<h1> Error !  ${err} </h1>`);
+    //     }
+
+    //     return res.end(data);                                     // data ko how kr ne k liye
+    // });
+    switch(req.url){
+        case '/contact': 
+        filePath='./contact.html'
+         break;
+
+        default:   
+         filePath='./index.html'
+    
     }
-    else{
-        
+fs.readFile(filePath, function(err,data){        // data k under index.html ka all data aayega
+    if(err){
+        console.log(`Error !  ${err}`);
+      return  res.end(`<h1> Error !  ${err} </h1>`);
+    }
 
-
-    fs.readFile('./index.html', function(err,data){        // data k under index.html ka all data aayega
-        if(err){
-            console.log(`Error !  ${err}`);
-          return  res.end(`<h1> Error !  ${err} </h1>`);
-        }
-
-        return res.end(data);    // data ko how kr ne k liye
-    });
-
-
-    
-}
+    return res.end(data);                               // data ko how kr ne k liye
+});
 
 
 
