@@ -47,10 +47,6 @@ fs.readFile(filePath, function(err,data){        // data k under index.html ka a
 
     return res.end(data);                               // data ko how kr ne k liye
 });
-
-
-
-   
     
 }
 
