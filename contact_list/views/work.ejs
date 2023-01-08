@@ -8,16 +8,27 @@
 </head>
 <body>
     <h1>This is my work page !</h1>
- 
+     <div>
+        <ul>
+            <% for( let i of contactList){ %>
+                    <li>
+                      <p>  <%=i.name %>  </p>
+                      <p>  <%=i.phone %>  </p>
+                    </li>
+           <% }  %>
+        </ul>
+     </div>
+     <form action='/create-contact' method="post">
 
-     <ul>
-        <% for(let i=0;i< myloop; i++){ %>
-            <li>
-            <h1><%= i %></h1>
-            </li>
-        <% } %>
-     </ul>
+      <input type="text" name="name" placeholder="Enter the Name" required>
+      <input type="number" name="number" placeholder="Enter the PhoneNo." required>
+      <button type="submit">Add Contact</button>
+     </form>
+
+     <form action="/delete" method="post">
+      <button type="submit">Detete</button>
+     </form>
+
     
-
 </body>
 </html>
