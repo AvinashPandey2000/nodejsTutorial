@@ -1,11 +1,25 @@
+const assert = require('assert');
 const express= require('express');
+
+const db=require('./config/mongoose')       //Main file me connnection establish kr ne liye
+const Contact=require('./models/contact')   //Main file me schema use kr ne k liye
+
+
 const app= express();
-const path =require('path');                     
+const path =require('path');                           
 
 const port=8000;
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded());      //request data ko check kr ne k liye
+app.use(express.static('assest'))   // static file ko link kre ga  taki css and js ko use kr ske (css me link kre ge tho direct / lga kr css file ko link kre ge)
+
+
+//middle ware practice
+app.use(function(req,res,next){
+        console.log("middle ware called");
+        next();
+})
 
 // contact List 
 var contactList =[
@@ -53,8 +67,15 @@ app.post('/create-contact',function(req,res){
         return res.redirect('back');   // it work same is /work becuse whene we want to redirect to the same page the we use like this.
 })
 
-app.post('/delete',function(req,res){
-    contactList.pop();
+app.get('/delete-contact/',function(req,res){
+    // let phone=req.params.phone;
+    let phone =req.query.phone;
+
+    let contactIndex=contactList.findIndex(contact => contact.phone==phone);
+    if(contactIndex != -1){
+        contactList.splice(contactIndex,1);
+    }
+   
     return res.redirect('back');
 })
 

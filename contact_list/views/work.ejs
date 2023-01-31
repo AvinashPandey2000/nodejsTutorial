@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <%= title %></title>
+    <link rel="stylesheet" href="/css/Home.css">
 </head>
 <body>
     <h1>This is my work page !</h1>
@@ -12,8 +13,16 @@
         <ul>
             <% for( let i of contactList){ %>
                     <li>
+
                       <p>  <%=i.name %>  </p>
                       <p>  <%=i.phone %>  </p>
+                      
+                      <div class="delete-button">
+                        <a href="/delete-contact/?phone=<%=i.phone%>&name=<%=i.name%>">
+                          X
+                        </a>
+                      </div>
+
                     </li>
            <% }  %>
         </ul>
@@ -25,10 +34,8 @@
       <button type="submit">Add Contact</button>
      </form>
 
-     <form action="/delete" method="post">
-      <button type="submit">Detete</button>
-     </form>
-
     
+
+<script src="/js/Home.js"></script>    
 </body>
 </html>
