@@ -47,10 +47,21 @@ app.get('/',function(req,res){
 app.get('/work',function(req,res){
     console.log(req.url);
     
-    return res.render('work',{
-        title:"my Work",
-        contactList: contactList
+
+    // MONGOOS : GET  data from the mongos
+
+    Contact.find({},function (err,dbData) {
+        if(err){
+            console.log(`Error will fatching data ${err}`); return;
+        }
+
+        return res.render('work',{
+            title:"my Work",
+            contactList: dbData
+        })
+
     })
+   
 })
 
 // app.get('/contact',function(req,res){
@@ -59,25 +70,40 @@ app.get('/work',function(req,res){
 
 app.post('/create-contact',function(req,res){
         console.log(req.body)
-        contactList.push({
+        // contactList.push({
+        //     name:req.body.name,
+        //     phone:req.body.number
+        // })
+
+                                             // MONGOOS :send data to mongo
+        Contact.create({
             name:req.body.name,
             phone:req.body.number
+        },function(err,newcontact){
+            if(err){
+                console.log(`error while creating server ${err}`); return;
+            }
+
+            console.log(newcontact);
+            return res.redirect('back');
         })
-        // return res.redirect('/work');  
-        return res.redirect('back');   // it work same is /work becuse whene we want to redirect to the same page the we use like this.
+
+
+        // return res.redirect('back');   // it work same is /work becuse whene we want to redirect to the same page the we use like this.    or  return res.redirect('/work'); 
 })
 
 app.get('/delete-contact/',function(req,res){
     // let phone=req.params.phone;
-    let phone =req.query.phone;
+    let id =req.query.id;               // get the id from the backhand
 
-    let contactIndex=contactList.findIndex(contact => contact.phone==phone);
-    if(contactIndex != -1){
-        contactList.splice(contactIndex,1);
-    }
-   
-    return res.redirect('back');
-})
+    Contact.findByIdAndDelete(id, function(err){   // apply mongo filter to find and delete
+        if(err){
+                console.log(`error will delete : ${err}`); return;
+        }
+        return res.redirect('back');            // back to the original position
+    })
+
+}) 
 
 // creating server
 app.listen(port, function(err){

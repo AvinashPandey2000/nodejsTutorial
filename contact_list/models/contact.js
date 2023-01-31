@@ -14,6 +14,5 @@ const contactSchema = new mongoose.Schema({
 });
 
 //step 3: export he connection so that we can use this in other file
-// const Contact = mongoose.model('Contact',contactSchema);
-// module.exports =Contact;
-exports.Contact = mongoose.model('Contact',contactSchema);
+const Contact = mongoose.model('Contact',contactSchema);
+module.exports =Contact;
